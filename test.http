@@ -1,0 +1,15 @@
+### Sing in in the server | Get token
+POST http://localhost:3017/api/v1/auth/login
+Content-Type: application/json
+X-Access-Token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNzM4Njk0MzQ2LCJleHAiOjE3MzkyOTkxNDZ9.H6dvUaYPlUSdpKIyX0a89cnql8duoBFWLxI9zdwLr90
+
+{
+  "username": "ElOskar101",
+  "password": "1234"
+}
+
+### Get my user data with token
+GET http://localhost:3017/api/v1/users/me
+Content-Type: application/json
+X-Access-Token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNzM4Njk0MzQ2LCJleHAiOjE3MzkyOTkxNDZ9.H6dvUaYPlUSdpKIyX0a89cnql8duoBFWLxI9zdwLr90
+

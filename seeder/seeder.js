@@ -29,6 +29,6 @@ export const feedDatabase = () => {
 
 
 
-    console.log('Default data was inserted into database tables');
+    console.log('Default data was inserted into seeder tables');
 }
 

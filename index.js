@@ -1,11 +1,11 @@
 import app from './app'
-const { createTables } = require("./database/create-tables");
-const { feedDatabase } = require("./database/seeder");
+const { createTables } = require("./seeder/create-tables");
+const { feedDatabase } = require("./seeder/seeder");
 require('dotenv').config();
 
 // Initialize db
-createTables();
-feedDatabase();
+//createTables();
+//feedDatabase();
 
 
 // Initialize server
