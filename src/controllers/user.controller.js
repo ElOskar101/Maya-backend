@@ -2,7 +2,6 @@ import {onError, onSuccess} from "../../libs/utils/res-handler";
 
 const { initDatabase } = require("../../database");
 const db = initDatabase();
-import httpCodes from "../../config/codes-config";
 
 /**
  * Send user in session

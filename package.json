@@ -4,7 +4,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "babel src/ index.js --out-dir build",
+    "build": "babel src/ seeder/ index.js --out-dir build",
     "start": "nodemon --watch src/ index.js --exec babel-node"
   },
   "keywords": [],

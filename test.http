@@ -9,7 +9,13 @@ X-Access-Token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNzM4Njk
 }
 
 ### Get my user data with token
-GET http://localhost:3017/api/v1/users/me
+GET http://localhost:3017/api/v1/suppliers/
 Content-Type: application/json
 X-Access-Token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNzM4Njk0MzQ2LCJleHAiOjE3MzkyOTkxNDZ9.H6dvUaYPlUSdpKIyX0a89cnql8duoBFWLxI9zdwLr90
 
+{
+  "identification": "202-160298-0001E",
+  "cellphone": "7871-4404",
+  "representativeName": "Oscar Gonzalez",
+  "name": "Invercasa"
+}

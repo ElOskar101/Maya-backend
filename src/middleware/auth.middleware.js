@@ -52,3 +52,7 @@ export const validateToken = async (req, res, next) => {
         return res.status(httpCodes.INTERNAL_SERVER_ERROR_N).send('An error occurred validating token');
     }
 }
+
+export const isAdmin = (req, res, next) => {}
+export const isSeller = (req, res, next) => {}
+

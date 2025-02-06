@@ -1,20 +1,19 @@
 import express from "express";
-import morgan from 'morgan';
-import pkg from './package.json';
 import versionHandler from "./config/version-config";
 
 import userRoute from "./src/routes/user.route";
 import authRoute from "./src/routes/auth.route";
+import supplierRoute from "./src/routes/supplier.route";
 
 const app = express();
-app.use(morgan('dev'));
+//app.use(morgan('dev'));
 app.use(express.json({limit: '300mb'}));
 app.use(express.static(__dirname + '/public'));
-app.set('view engine', require('ejs'));
-app.set('pkg', pkg);
+
 
 app.use(`${ versionHandler.v1 }/`, userRoute);
 app.use(`${ versionHandler.v1 }/`, authRoute);
+app.use(`${ versionHandler.v1 }/`, supplierRoute);
 
 app.get('/', (req,res)=>{
   res.json({

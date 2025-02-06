@@ -141,12 +141,14 @@ export const createTables = () => {
         FOREIGN KEY("createdBy") REFERENCES "user"("id") );
         
         CREATE TABLE IF NOT EXISTS "status" ( "id" INTEGER NOT NULL UNIQUE, "name"
-        INTEGER NOT NULL, PRIMARY KEY("id" AUTOINCREMENT) );
+        INTEGER NOT NULL, PRIMARY KEY("id" AUTOINCREMENT));
         
-        CREATE TABLE IF NOT EXISTS "supplier" ( "id" INTEGER NOT NULL UNIQUE,
-        "identification" TEXT UNIQUE, "name" TEXT,
-        "representative_name" TEXT, "cellphone" TEXT, "createdBy"
-        INTEGER, PRIMARY KEY("id" AUTOINCREMENT) );
+        CREATE TABLE IF NOT EXISTS "supplier" ("id" INTEGER NOT NULL UNIQUE,
+        "identification" TEXT UNIQUE,"name" TEXT,
+        "representative_name" TEXT,"cellphone" TEXT,
+        "createdBy" INTEGER, PRIMARY KEY("id" AUTOINCREMENT),
+        FOREIGN KEY("createdBy") REFERENCES "user"("id")
+        );
         
         CREATE TABLE IF NOT EXISTS "system_setting" ( "id" INTEGER NOT NULL
         UNIQUE, "currency_type" INTEGER, "warehouse" INTEGER,
