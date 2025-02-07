@@ -5,7 +5,7 @@ require('dotenv').config();
 
 // Initialize db
 //createTables();
-//feedDatabase();
+feedDatabase();
 
 
 // Initialize server
