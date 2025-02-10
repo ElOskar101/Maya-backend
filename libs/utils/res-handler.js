@@ -1,5 +1,6 @@
 import httpCodes from "../../config/codes-config";
 import { currentDateFormatted } from "./dates";
+import  sqliteErrorHandler from '../../libs/utils/sqlite-error-handler';
 
 /**
  * Specially used on catch or exceptions
@@ -11,7 +12,8 @@ import { currentDateFormatted } from "./dates";
  */
 export const onError = (error, file, functionName, res) => {
     console.error(`${ error } \n${ file }.js > ${ functionName }();\nAt: ${ currentDateFormatted() }`);
-    return res.status(httpCodes.INTERNAL_SERVER_ERROR_N).send({ error: error });
+    const message = sqliteErrorHandler(error) || error;
+    return res.status(httpCodes.INTERNAL_SERVER_ERROR_N).send({ error: message });
 }
 
 export const onNotFound = (message, res) => {
@@ -27,4 +29,16 @@ export const onUnauthorized = (message, res) => {
     console.error(message);
     return res.status(httpCodes.UNAUTHORIZED).send({ message: message });
 }
+
+export const onNotAllowed = (message, res) => {
+    console.error(message);
+    return res.status(httpCodes.NOT_ALLOWED).send({ message: message });
+}
+
+export const onNotModify = (message, res) => {
+    console.error(message);
+    return res.status(httpCodes.NOT_MODIFIED).send({ message: message });
+}
+
+
 

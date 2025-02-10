@@ -4,18 +4,27 @@ Content-Type: application/json
 X-Access-Token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNzM4Njk0MzQ2LCJleHAiOjE3MzkyOTkxNDZ9.H6dvUaYPlUSdpKIyX0a89cnql8duoBFWLxI9zdwLr90
 
 {
-  "username": "ElOskar101",
-  "password": "1234"
+  "username": "maya",
+  "password": "dmaya78984%P"
 }
 
-### Get my user data with token
-GET http://localhost:3017/api/v1/suppliers/
+### Dynamic
+GET http://localhost:3017/api/v1/departments/1
 Content-Type: application/json
-X-Access-Token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNzM4Njk0MzQ2LCJleHAiOjE3MzkyOTkxNDZ9.H6dvUaYPlUSdpKIyX0a89cnql8duoBFWLxI9zdwLr90
+X-Access-Token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiaWF0IjoxNzM5MjA2NDY0LCJleHAiOjE3Mzk4MTEyNjR9.wNLeX0OdB2S1slGrKC4JHTQ4poljE-cs1dwMCJXT7R4
 
 {
-  "identification": "202-160298-0001E",
-  "cellphone": "7871-4404",
-  "representativeName": "Oscar Gonzalez",
-  "name": "Invercasa"
+  "accountNumber": "65dw8211584",
+  "accountHolderName": "",
+  "currencyType": 1,
+  "bank": 1
 }
+
+### GET ALL
+GET http://localhost:3017/api/v1/departments/
+Content-Type: application/json
+X-Access-Token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiaWF0IjoxNzM5MjA2NDY0LCJleHAiOjE3Mzk4MTEyNjR9.wNLeX0OdB2S1slGrKC4JHTQ4poljE-cs1dwMCJXT7R4
+
+
+
+

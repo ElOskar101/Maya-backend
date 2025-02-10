@@ -30,6 +30,6 @@ export default {
     role:`INSERT INTO role (name) VALUES ('superadmin'), ('admin'), ('standard');`,
 
     user:`INSERT INTO user (name, username, password, role, createdBy) VALUES ('Maya Systems', 'maya', 
-        '${await encryptOneWayHash(process.env.DEFAULT_USER_PASSWORD)}', 1, NULL);`
+        '$2b$10$tlBrV/cr7usc6mEg53e9E.7QPt4R/cnuqAjQVagKQRQjI8itJCJ8G', 1, NULL);`
 
 }

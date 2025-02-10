@@ -7,7 +7,7 @@ export const createTables = () => {
     db.exec(`
         CREATE TABLE IF NOT EXISTS "bank" ( 
             "id" INTEGER NOT NULL UNIQUE, 
-            "name" TEXT UNIQUE, 
+            "name" TEXT UNIQUE NOT NULL, 
             "telephone" TEXT, 
             "createdAt" DATETIME DEFAULT CURRENT_TIMESTAMP, 
             "updatedAt" DATETIME DEFAULT CURRENT_TIMESTAMP, 
@@ -16,14 +16,14 @@ export const createTables = () => {
         CREATE TABLE IF NOT EXISTS "bank_account" ( 
             "id" INTEGER NOT NULL UNIQUE,
             "account_number" TEXT NOT NULL UNIQUE, 
-            "account_holder_name" TEXT, 
+            "account_holder_name" TEXT NOT NULL, 
             "currency_type" INTEGER, 
             "bank" INTEGER, 
             "createdAt" DATETIME DEFAULT CURRENT_TIMESTAMP, 
             "updatedAt" DATETIME DEFAULT CURRENT_TIMESTAMP, 
             PRIMARY KEY("id" AUTOINCREMENT),
-            FOREIGN KEY("bank") REFERENCES "bank"("id"), 
-            FOREIGN KEY("currency_type") REFERENCES "currency_type"("id"));
+            FOREIGN KEY("bank") REFERENCES "bank"("id") ON DELETE CASCADE, 
+            FOREIGN KEY("currency_type") REFERENCES "currency_type"("id")) ON DELETE SET NULL;
         
         CREATE TABLE IF NOT EXISTS "cardex" ( 
             "id" INTEGER NOT NULL UNIQUE,
@@ -51,10 +51,10 @@ export const createTables = () => {
             "createdAt" DATETIME DEFAULT CURRENT_TIMESTAMP,
             "updatedAt" DATETIME DEFAULT CURRENT_TIMESTAMP, 
             PRIMARY KEY("id" AUTOINCREMENT), 
-            FOREIGN KEY("createdBy") REFERENCES "user"("id"), 
+            FOREIGN KEY("createdBy") REFERENCES "user"("id") ON DELETE SET NULL, 
             FOREIGN KEY("credit_currency") REFERENCES "currency_type"("id"), 
             FOREIGN KEY("department") REFERENCES "department"("id"), 
-            FOREIGN KEY("seller") REFERENCES "seller"("id"));
+            FOREIGN KEY("seller") REFERENCES "seller"("id")) ON DELETE SET NULL;
         
         CREATE TABLE IF NOT EXISTS "currency_type" ( 
             "id" INTEGER NOT NULL UNIQUE,
@@ -68,7 +68,7 @@ export const createTables = () => {
         CREATE TABLE IF NOT EXISTS "department" ( 
             "id" INTEGER NOT NULL UNIQUE,
             "name" TEXT NOT NULL UNIQUE,
-            "abbreviation", TEXT, 
+            "abbreviation" TEXT NOT NULL UNIQUE, 
             "createdAt" DATETIME DEFAULT CURRENT_TIMESTAMP, 
             "updatedAt" DATETIME DEFAULT CURRENT_TIMESTAMP, 
             PRIMARY KEY("id" AUTOINCREMENT) );
@@ -103,7 +103,7 @@ export const createTables = () => {
             PRIMARY KEY("id" AUTOINCREMENT), 
             FOREIGN KEY("bank_account") REFERENCES "bank_account"("id"),
             FOREIGN KEY("client") REFERENCES "client"("id"),
-            FOREIGN KEY("createdBy") REFERENCES "user"("id"), 
+            FOREIGN KEY("createdBy") REFERENCES "user"("id") ON DELETE SET NULL, 
             FOREIGN KEY("currency_type") REFERENCES "currency_type"("id"),
             FOREIGN KEY("invoice_type") REFERENCES "invoice_type"("id"),
             FOREIGN KEY("payment_method") REFERENCES "payment_method"("id"), 

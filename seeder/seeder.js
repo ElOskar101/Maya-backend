@@ -1,12 +1,11 @@
 const { initDatabase } = require("../database");
 const db = initDatabase();
-import seeds from './seeders';
+import seeds from './seeds';
 
 
-export const feedDatabase = () => {
+export const feedDatabase = async () => {
     const tables = ['bank', 'currency_type', 'department', 'document', 'measurement_unit',
         'payment_method', 'role', 'invoice_status', 'user', 'product_status'];
-
 
     for (const table of tables) {
         const values = db.prepare(`SELECT * FROM '${table}'`).all();
@@ -14,6 +13,6 @@ export const feedDatabase = () => {
         db.prepare(seeds[table]).run();
     }
 
-    console.log('Default data was inserted into seeder tables');
+    console.log('Default data was inserted into tables');
 }
 
