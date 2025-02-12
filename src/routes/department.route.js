@@ -1,7 +1,7 @@
 const router = require("express").Router();
 import * as a from"../middleware/auth.middleware";
 import * as d from"../controllers/department.controller";
-import transformQuery from '../middleware/put-transformer.middleware'
+import transformQuery from '../middleware/body-transformer.middleware'
 
 router.get("/departments/", a.validateToken, a.isStandard, d.getDepartments);
 router.get("/departments/:id", a.validateToken, a.isStandard, d.getDepartment);

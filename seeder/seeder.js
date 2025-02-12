@@ -5,7 +5,7 @@ import seeds from './seeds';
 
 export const feedDatabase = async () => {
     const tables = ['bank', 'currency_type', 'department', 'document', 'measurement_unit',
-        'payment_method', 'role', 'invoice_status', 'user', 'product_status'];
+        'payment_method', 'role', 'invoice_status', 'invoice_type', 'user', 'product_status', 'system_setting'];
 
     for (const table of tables) {
         const values = db.prepare(`SELECT * FROM '${table}'`).all();

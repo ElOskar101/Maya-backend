@@ -34,13 +34,12 @@ export const getWarehouse= (req, res) => {
 export const createWarehouse = async (req, res) => {
     try{
 
-        const { name , address, department } = req.body;
-
         const enterprise = db.prepare("SELECT * FROM enterprise").get();
-        if (!enterprise) return onNotAllowed('Create a enterprise first.', res);
+        if (!enterprise) return onNotAllowed('Create an enterprise first.', res);
 
-        const result = db.prepare(`INSERT INTO warehouse (name, address, department, enterprise) 
-                                  VALUES (?, ?, ?, ?);`).run(name, address, department, enterprise.id);
+        const result = db.prepare(`INSERT INTO warehouse (${req.queryFields})
+                                  VALUES ${req.queryPlaceholders};`).run(req.queryValues);
+
         onSuccess(result, res);
     }catch (e) {
         onError(e.message, 'warehouse.controller', 'createWarehouse', res);

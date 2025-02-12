@@ -27,21 +27,25 @@ export const createTables = () => {
         
         CREATE TABLE IF NOT EXISTS "cardex" ( 
             "id" INTEGER NOT NULL UNIQUE,
-            "description" TEXT NOT NULL, 
-            "amount" INTEGER, 
-            "balance" NUMERIC, 
-            "addressee" TEXT, 
-            "date" DATETIME, 
-            "document" INTEGER, 
-            PRIMARY KEY("id" AUTOINCREMENT), 
-            FOREIGN KEY("document") REFERENCES "document"("id") );
+            "description" TEXT NOT NULL,
+            "amount" INTEGER,
+            "balance" NUMERIC,
+            "addressee" TEXT,
+            "date" DATETIME,
+            "document" INTEGER,
+            "createdBy" INTEGER,
+            "createdAt" DATETIME DEFAULT CURRENT_TIMESTAMP,
+            PRIMARY KEY("id" AUTOINCREMENT),
+            FOREIGN KEY("document") REFERENCES "document"("id")
+            FOREIGN KEY("createdAt") REFERENCES "user"("id"));
         
         CREATE TABLE IF NOT EXISTS "client" ( 
             "id" INTEGER NOT NULL UNIQUE, 
             "name" TEXT NOT NULL, 
             "address" TEXT, 
             "identification" TEXT NOT NULL UNIQUE, 
-            "cellphone" TEXT, 
+            "cellphone" TEXT,
+            "contact" TEXT,  
             "credit_apply" INTEGER DEFAULT 1, 
             "max_credit" NUMERIC, 
             "credit_currency" INTEGER, 
@@ -84,7 +88,8 @@ export const createTables = () => {
             "id" INTEGER NOT NULL UNIQUE,
             "number" TEXT NOT NULL UNIQUE, 
             "date" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP, 
-            "total" NUMERIC, "discount" NUMERIC, 
+            "total" NUMERIC, 
+            "discount" NUMERIC, 
             "iva" NUMERIC, 
             "discount_applied" NUMERIC, 
             "note" TEXT, 
@@ -116,7 +121,6 @@ export const createTables = () => {
             "amount" NUMERIC, 
             "discount" NUMERIC, 
             "discount_percent" NUMERIC, 
-            "iva" NUMERIC,
             "subtotal" NUMERIC,
             "measurement_unit" INTEGER,
             "product" INTEGER,
@@ -130,7 +134,7 @@ export const createTables = () => {
         
         CREATE TABLE IF NOT EXISTS "invoice_type" ( 
             "id" INTEGER NOT NULL UNIQUE,
-            "name" INTEGER NOT NULL, 
+            "name" TEXT NOT NULL, 
             "createdAt" DATETIME DEFAULT CURRENT_TIMESTAMP, 
             "updatedAt" DATETIME DEFAULT CURRENT_TIMESTAMP, 
             PRIMARY KEY("id" AUTOINCREMENT) );
@@ -145,7 +149,7 @@ export const createTables = () => {
         
         CREATE TABLE IF NOT EXISTS "payment_method" ( 
             "id" INTEGER NOT NULL UNIQUE,
-            "name" TEXT NOT NULL,
+            "name" TEXT NOT NULL UNIQUE,
             "createdAt" DATETIME DEFAULT CURRENT_TIMESTAMP,
             "updatedAt" DATETIME DEFAULT CURRENT_TIMESTAMP, 
             PRIMARY KEY("id" AUTOINCREMENT) );
@@ -155,15 +159,18 @@ export const createTables = () => {
             "name" TEXT NOT NULL, 
             "price" NUMERIC, 
             "description" TEXT,
-            "iva" NUMERIC, 
-            "net" NUMERIC, 
-            "quantity" NUMERIC, 
-            "life" INTEGER, 
+            "iva" NUMERIC,
+            "net" NUMERIC,
+            "quantity" NUMERIC,
+            "last_cost" NUMERIC,
+            "min_amount" INTEGER,
+            "weighted_price" NUMERIC,
             "is_countable" INTEGER DEFAULT 1, 
             "is_combo" INTEGER DEFAULT 0, 
             "currency_type" INTEGER, 
             "measurement_unit" INTEGER,
             "entry" INTEGER,
+            "warehouse" INTEGER,
             "category" INTEGER, 
             "warehouse" INTEGER,
             "product_status" INTEGER,
@@ -172,7 +179,8 @@ export const createTables = () => {
             PRIMARY KEY("id" AUTOINCREMENT), 
             FOREIGN KEY("category") REFERENCES "product_category"("id"), 
             FOREIGN KEY("currency_type") REFERENCES "currency_type"("id"),
-            FOREIGN KEY("entry") REFERENCES "product_entry"("id"), 
+            FOREIGN KEY("entry") REFERENCES "product_entry"("id"),
+            FOREIGN KEY("warehouse") REFERENCES "currency_type"("id")
             FOREIGN KEY("measurement_unit") REFERENCES "measurement_unit"("id"),
             FOREIGN KEY("warehouse") REFERENCES "warehouse"("id") );
         
@@ -198,6 +206,7 @@ export const createTables = () => {
             "concept" TEXT NOT NULL,
             "amount" NUMERIC,
             "state" INTEGER,
+            "is_entry": INTEGER NOT NULL DEFAULT 1,
             "product" INTEGER,
             "supplier" INTEGER,
             "createdBy" INTEGER,

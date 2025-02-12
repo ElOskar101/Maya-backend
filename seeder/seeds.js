@@ -1,4 +1,3 @@
-import {encryptOneWayHash} from "../libs/utils/encriptor";
 require('dotenv').config();
 
 export default {
@@ -13,21 +12,27 @@ export default {
         ('Madriz', 'MZ'), ('Nueva Segovia', 'NS'), ('Jinotega', 'JI'), ('Matagalpa', 'MT'), ('Boaco', 'BO'),
         ('Chontales', 'CO'), ('Río San Juan', 'RS'), ('RAAN', 'RACCN'), ('RAAS', 'RACCS');`,
 
-    document:`INSERT INTO document (name) VALUES ('Ingreso de producto'), ('Salida de producto');`,
+    document:`INSERT INTO document (name) VALUES ('Orden de venta'), ('Orden de entrada'), 
+        ('Orden de salida'), ('Orden de compra');`,
 
     measurement_unit:`INSERT INTO measurement_unit (name, abbreviation) VALUES ('Libra', 'lb'), ('Kilogramo', 'kg'),
         ('Gramo', 'g'), ('Tonelada', 't'), ('Litro', 'L'), ('Mililitro', 'mL'), ('Galón', 'gal'), ('Metro', 'm'),
         ('Centímetro', 'cm'), ('Milímetro', 'mm'), ('Pulgada', 'in'), ('Pie', 'ft'), ('Unidad', 'unid'), 
         ('Docena', 'doc'), ('Ciento', 'cien'), ('Caja', 'caja'), ('Paquete', 'paq'), ('Bolsa', 'bolsa');`,
 
-    payment_method:`INSERT INTO payment_method (name) VALUES ('Transferencia bancaria'),('Efectivo')`,
+    payment_method:`INSERT INTO payment_method (name) VALUES ('Transferencia bancaria'),('Efectivo'), ('Crédito')`,
 
     invoice_status:`INSERT INTO invoice_status (name) VALUES ('Pendiente'), ('Cancelado'), ('Facturado'), 
         ('En Revisión');`,
 
-    product_status:`INSERT INTO product_status (name) VALUES ('Pendiente'), ('Agotado'), ('Vigente');`,
+    invoice_type:`INSERT INTO invoice_type (name) VALUES ('Cotizacion'), ('Factura');`,
+
+    product_status:`INSERT INTO product_status (name) VALUES ('Pendiente'), ('Agotado'), ('Vigente'), 
+        ('Vencido'), ('Descompuesto'), ('Usado'), ('Nuevo');`,
 
     role:`INSERT INTO role (name) VALUES ('superadmin'), ('admin'), ('standard');`,
+
+    system_setting:`INSERT INTO system_setting (currency_type, warehouse) VALUES (2, NULL);`,
 
     user:`INSERT INTO user (name, username, password, role, createdBy) VALUES ('Maya Systems', 'maya', 
         '$2b$10$tlBrV/cr7usc6mEg53e9E.7QPt4R/cnuqAjQVagKQRQjI8itJCJ8G', 1, NULL);`
