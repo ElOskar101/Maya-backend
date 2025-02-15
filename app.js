@@ -1,5 +1,6 @@
 import express from "express";
 import pkg from './package.json';
+const cors = require('cors');
 import versionHandler from "./config/version-config";
 
 import userRoute from "./src/routes/user.route";
@@ -19,10 +20,15 @@ import paymentMethodRoute from "./src/routes/payment-method.route";
 import productStatusRoute from "./src/routes/product-status.route";
 import invoiceStatusRoute from "./src/routes/invoice-status.route";
 import systemSettingRoute from "./src/routes/system-setting.route";
+import functionsRoute from "./src/routes/functions.route";
 
 
 const app = express();
 //app.use(morgan('dev'));
+app.use(cors({
+  origin: '*',
+  AccessControlAllowOrigin: '*',
+}));
 app.use(express.json({limit: '300mb'}));
 app.set('pkg', pkg);
 app.use(express.static(__dirname + '/public'));
@@ -45,6 +51,7 @@ app.use(`${ versionHandler.v1 }/`, paymentMethodRoute);
 app.use(`${ versionHandler.v1 }/`, productStatusRoute);
 app.use(`${ versionHandler.v1 }/`, invoiceStatusRoute);
 app.use(`${ versionHandler.v1 }/`, systemSettingRoute);
+app.use(`${ versionHandler.v1 }/`, functionsRoute);
 
 
 app.get('/', (req,res)=>{

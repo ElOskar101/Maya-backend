@@ -12,13 +12,14 @@ PUT http://localhost:3017/api/v1/system-settings/1
 Content-Type: application/json
 X-Access-Token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiaWF0IjoxNzM5MjA2NDY0LCJleHAiOjE3Mzk4MTEyNjR9.wNLeX0OdB2S1slGrKC4JHTQ4poljE-cs1dwMCJXT7R4
 
-  {
-    "warehouse": 2
-  }
+{
+  "warehouse": ""
+}
+
 ### GET ALL
-GET http://localhost:3017/api/v1/system-settings/
+POST http://localhost:3017/api/v1/functions/test
 Content-Type: application/json
-X-Access-Token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiaWF0IjoxNzM5MjA2NDY0LCJleHAiOjE3Mzk4MTEyNjR9.wNLeX0OdB2S1slGrKC4JHTQ4poljE-cs1dwMCJXT7R4
+X-Access-Token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiaWF0IjoxNzM5NjYwNzM0LCJleHAiOjE3NDAyNjU1MzR9.FEcLT8CyENusE1qgDDgaklWOPs_sgkaTFDK-gi43aVE
 
 
 

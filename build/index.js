@@ -10,7 +10,7 @@ require('dotenv').config();
 
 // Initialize db
 //createTables();
-//feedDatabase();
+feedDatabase();
 
 // Initialize server
 var port = process.env.PORT || 3017;

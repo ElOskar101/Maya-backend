@@ -16,6 +16,7 @@ export const validateUserExistence = async (req, res, next) => {
         const { username, password } = req.body;
         const result = db.prepare(`SELECT user.*, role.name AS role FROM user JOIN role ON role.id = user.role 
                                         WHERE username=?;`).get(username);
+
         if(!result)
             return onNotFound('User Not Found', res);
 

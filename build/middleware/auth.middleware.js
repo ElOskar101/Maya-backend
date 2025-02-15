@@ -4,7 +4,7 @@ function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.validateUserExistence = exports.validateToken = void 0;
+exports.validateUserExistence = exports.validateToken = exports.isSuperAdmin = exports.isStandard = exports.isAdmin = void 0;
 var _codesConfig = _interopRequireDefault(require("../../config/codes-config"));
 var _resHandler = require("../../libs/utils/res-handler");
 var _encriptor = require("../../libs/utils/encriptor");
@@ -22,19 +22,49 @@ var db = initDatabase();
  * @param next
  * @returns {*}
  */
-var validateUserExistence = exports.validateUserExistence = function validateUserExistence(req, res, next) {
-  try {
-    var _req$body = req.body,
-      username = _req$body.username,
-      password = _req$body.password;
-    var result = db.prepare("SELECT user.*, role.name AS role FROM user JOIN role ON role.id = user.role \n                                        WHERE username=? AND password=?;").get(username, password);
-    if (!result) return (0, _resHandler.onNotFound)('User Not Found | Check credentials', res);
-    req.userId = result.id;
-    next();
-  } catch (e) {
-    (0, _resHandler.onError)(e.message, 'auth.middleware', 'validateUserExistence', res);
-  }
-};
+var validateUserExistence = exports.validateUserExistence = /*#__PURE__*/function () {
+  var _ref = _asyncToGenerator(/*#__PURE__*/_regeneratorRuntime().mark(function _callee(req, res, next) {
+    var _req$body, username, password, result, matchPassword;
+    return _regeneratorRuntime().wrap(function _callee$(_context) {
+      while (1) switch (_context.prev = _context.next) {
+        case 0:
+          _context.prev = 0;
+          _req$body = req.body, username = _req$body.username, password = _req$body.password;
+          result = db.prepare("SELECT user.*, role.name AS role FROM user JOIN role ON role.id = user.role \n                                        WHERE username=?;").get(username);
+          if (result) {
+            _context.next = 5;
+            break;
+          }
+          return _context.abrupt("return", (0, _resHandler.onNotFound)('User Not Found', res));
+        case 5:
+          _context.next = 7;
+          return (0, _encriptor.comparePassword)(password, result.password);
+        case 7:
+          matchPassword = _context.sent;
+          if (matchPassword) {
+            _context.next = 10;
+            break;
+          }
+          return _context.abrupt("return", (0, _resHandler.onNotFound)('Password did not match', res));
+        case 10:
+          req.userId = result.id;
+          next();
+          _context.next = 17;
+          break;
+        case 14:
+          _context.prev = 14;
+          _context.t0 = _context["catch"](0);
+          (0, _resHandler.onError)(_context.t0.message, 'auth.middleware', 'validateUserExistence', res);
+        case 17:
+        case "end":
+          return _context.stop();
+      }
+    }, _callee, null, [[0, 14]]);
+  }));
+  return function validateUserExistence(_x, _x2, _x3) {
+    return _ref.apply(this, arguments);
+  };
+}();
 
 /**
  * Validate if token is provided or valid
@@ -44,41 +74,77 @@ var validateUserExistence = exports.validateUserExistence = function validateUse
  * @returns {Promise<*>}
  */
 var validateToken = exports.validateToken = /*#__PURE__*/function () {
-  var _ref = _asyncToGenerator(/*#__PURE__*/_regeneratorRuntime().mark(function _callee(req, res, next) {
+  var _ref2 = _asyncToGenerator(/*#__PURE__*/_regeneratorRuntime().mark(function _callee2(req, res, next) {
     var token, tokenDecoded;
-    return _regeneratorRuntime().wrap(function _callee$(_context) {
-      while (1) switch (_context.prev = _context.next) {
+    return _regeneratorRuntime().wrap(function _callee2$(_context2) {
+      while (1) switch (_context2.prev = _context2.next) {
         case 0:
-          _context.prev = 0;
+          _context2.prev = 0;
           token = req.headers['x-access-token'];
           if (token) {
-            _context.next = 4;
+            _context2.next = 4;
             break;
           }
-          return _context.abrupt("return", (0, _resHandler.onUnauthorized)('No token provided', res));
+          return _context2.abrupt("return", (0, _resHandler.onUnauthorized)('No token provided', res));
         case 4:
           tokenDecoded = (0, _encriptor.verifyToken)(token);
           if (tokenDecoded) {
-            _context.next = 7;
+            _context2.next = 7;
             break;
           }
-          return _context.abrupt("return", (0, _resHandler.onUnauthorized)('Invalid or expired token', res));
+          return _context2.abrupt("return", (0, _resHandler.onUnauthorized)('Invalid or expired token', res));
         case 7:
           req.userId = tokenDecoded.id;
           next();
-          _context.next = 14;
+          _context2.next = 14;
           break;
         case 11:
-          _context.prev = 11;
-          _context.t0 = _context["catch"](0);
-          return _context.abrupt("return", res.status(_codesConfig["default"].INTERNAL_SERVER_ERROR_N).send('An error occurred validating token'));
+          _context2.prev = 11;
+          _context2.t0 = _context2["catch"](0);
+          return _context2.abrupt("return", res.status(_codesConfig["default"].INTERNAL_SERVER_ERROR_N).send('An error occurred validating token'));
         case 14:
         case "end":
-          return _context.stop();
+          return _context2.stop();
       }
-    }, _callee, null, [[0, 11]]);
+    }, _callee2, null, [[0, 11]]);
   }));
-  return function validateToken(_x, _x2, _x3) {
-    return _ref.apply(this, arguments);
+  return function validateToken(_x4, _x5, _x6) {
+    return _ref2.apply(this, arguments);
   };
 }();
+var isSuperAdmin = exports.isSuperAdmin = function isSuperAdmin(req, res, next) {
+  try {
+    var result = getUserRole(req.userId);
+    if (!['superadmin'].includes(result.role)) return (0, _resHandler.onUnauthorized)('Not allowed to do this action', res);
+    next();
+  } catch (e) {
+    (0, _resHandler.onError)(e.message, 'auth.middleware', 'isSuperAdmin', res);
+  }
+};
+var isAdmin = exports.isAdmin = function isAdmin(req, res, next) {
+  try {
+    var result = getUserRole(req.userId);
+    if (!['superadmin', 'admin'].includes(result.role)) return (0, _resHandler.onUnauthorized)('Not allowed to do this action', res);
+    next();
+  } catch (e) {
+    (0, _resHandler.onError)(e.message, 'auth.middleware', 'isAdmin', res);
+  }
+};
+var isStandard = exports.isStandard = function isStandard(req, res, next) {
+  try {
+    var result = getUserRole(req.userId);
+    if (!['superadmin', 'admin', 'standard'].includes(result.role)) return (0, _resHandler.onUnauthorized)('Not allowed to do this action', res);
+    next();
+  } catch (e) {
+    (0, _resHandler.onError)(e.message, 'auth.middleware', 'isStandard', res);
+  }
+};
+
+/**
+ * Search user role for role validation middlewares (isStandard, isAdmin, isSuperAdmin)
+ * @param userId
+ * @returns {*}
+ */
+function getUserRole(userId) {
+  return db.prepare("SELECT user.*, role.name AS role FROM user JOIN role ON role.id = user.role \n                       WHERE user.id=".concat(userId)).get();
+}

@@ -5,11 +5,10 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.getMyUser = void 0;
 var _resHandler = require("../../libs/utils/res-handler");
-var _codesConfig = _interopRequireDefault(require("../../config/codes-config"));
-function _interopRequireDefault(e) { return e && e.__esModule ? e : { "default": e }; }
 var _require = require("../../database"),
   initDatabase = _require.initDatabase;
 var db = initDatabase();
+
 /**
  * Send user in session
  * @param { Object } req - Request with username & password in its body.
